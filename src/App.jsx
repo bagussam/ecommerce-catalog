@@ -1,18 +1,18 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom';
 
 export default function App() {
-  // 1. Mengambil data dari loader React Router (mensimulasikan fetch data)
+  // 1. Fetch data from React Router loader (simulating data fetch)
   const { categories, subCategories, brands, products } = useLoaderData();
   
-  // 2. Manajemen State Persisten menggunakan URL Search Params
+  // 2. Persistent State Management using URL Search Params
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Membaca nilai dari parameter URL saat ini
+  // Read values from current URL parameters
   const categoryId = searchParams.get('category') || '';
   const subcategoryId = searchParams.get('subcategory') || '';
   const brandId = searchParams.get('brand') || '';
 
-  // 3. Logika Filter Data (Cascading)
+  // 3. Data Filtering Logic (Cascading)
   const filteredSubCategories = subCategories.filter(sc => sc.categoryId === categoryId);
   const filteredBrands = brands.filter(b => b.subCategoryId === subcategoryId);
 
@@ -28,12 +28,12 @@ export default function App() {
     filteredProducts = products.filter(p => validBrandIds.includes(p.brandId));
   }
 
-  // Helper untuk Breadcrumbs
+  // Helper for Breadcrumbs
   const categoryName = categories.find(c => c.id === categoryId)?.name || '';
   const subCategoryName = subCategories.find(sc => sc.id === subcategoryId)?.name || '';
   const brandName = brands.find(b => b.id === brandId)?.name || '';
 
-  // 4. Fungsi-fungsi Handler
+  // 4. Handler Functions
   const handleCategoryChange = (e) => {
     const newCategory = e.target.value;
     if (newCategory) {
